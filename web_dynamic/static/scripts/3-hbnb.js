@@ -12,13 +12,22 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     $.ajax({
-      url: 'http://localhost:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify({ }),
       success: function (data) {
+        data.sort(function (a, b) {
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (a.name < b.name) {
+            return -1;
+          }
+          return 0;
+        });
+        console.log(data[0]);
         for (const elem of Object.values(data)) {
-          console.log(elem);
           $('SECTION.places').append(
             '<article> <div class="title">' +
                 '<h2>' + elem.name + '</h2>' +
