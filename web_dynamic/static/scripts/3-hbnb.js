@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     $.ajax({
-      url: 'http://0.0.0.0:5001/api/v1/places_search/',
+      url: 'http://localhost:5001/api/v1/places_search/',
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify({ }),
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="number_bathrooms">' +
                 '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
                 '<br />' + elem.number_bathrooms + 'Bathroom' + '</div>' +
-                '</div>' + '</article>'
+                '</div>' + '<div class="description">' + elem.description + '</div>' + '</article>'
           );
         }
       }
