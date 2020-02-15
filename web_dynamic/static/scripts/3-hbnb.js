@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     $.ajax({
-      url: 'http://localhost:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       contentType: 'application/json',
       type: 'POST',
       data: JSON.stringify({ }),
