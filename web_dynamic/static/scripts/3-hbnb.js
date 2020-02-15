@@ -34,13 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<div class="price_by_night">' + elem.price_by_night + '</div> </div>' +
                 '<div class="information"> <div class="max_guest">' +
                 '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
-                '<br />' + elem.max_guest + 'Guests' + '</div>' +
+                '<br />' + elem.max_guest + ' Guests' + '</div>' +
                 '<div class="number_rooms">' +
                 '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
-                '<br />' + elem.number_rooms + 'Bedrooms' + '</div>' +
+                '<br />' + elem.number_rooms + ' Bedrooms' + '</div>' +
                 '<div class="number_bathrooms">' +
                 '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
-                '<br />' + elem.number_bathrooms + 'Bathroom' + '</div>' +
+                '<br />' + elem.number_bathrooms + ' Bathroom' + '</div>' +
                 '</div>' + '<div class="description">' + elem.description + '</div>' + '</article>'
           );
         }
