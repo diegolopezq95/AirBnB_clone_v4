@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     let datas = JSON.stringify(dictAmeny);
-    $.get('http://localhost:5001/api/v1/status/', function (data) {
+    $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
       if (data.status === 'OK') {
         $('DIV#api_status').addClass('available');
       } else {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     $.ajax({
-      url: 'http://localhost:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       contentType: 'application/json',
       type: 'POST',
       data: datas,
@@ -69,29 +69,44 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(data[0]);
         for (const elem of Object.values(data)) {
           $.ajax({
-            url: 'http://localhost:5001/api/v1/users/' + elem.user_id,
+            url: 'http://0.0.0.0:5001/api/v1/users/' + elem.user_id,
             contentType: 'application/json',
             type: 'GET',
             success: function (dataname) {
-              $('SECTION.places').append(
-                '<article> <div class="title">' +
-                  '<h2>' + elem.name + '</h2>' +
-                  '<div class="price_by_night">' + elem.price_by_night + '</div> </div>' +
-                  '<div class="information"> <div class="max_guest">' +
-                  '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
-                  '<br />' + elem.max_guest + ' Guests' + '</div>' +
-                  '<div class="number_rooms">' +
-                    '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
-                  '<br />' + elem.number_rooms + ' Bedrooms' + '</div>' +
-                    '<div class="number_bathrooms">' +
-                  '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
-                  '<br />' + elem.number_bathrooms + ' Bathroom' + '</div>' + '</div>' +
-                  '<div class="user">' + '<strong>' + 'Owner: ' + dataname.first_name +
-                  ' ' + dataname.last_name + '</strong>' + '</div>' +
-                  '</div>' + '<div class="description">' + elem.description + '</div>' +
-                  '</article>'
-              );
-            }
+	      $.ajax({
+		url: `http://0.0.0.0:5001/api/v1/places/${elem.id}/reviews`,
+		contentType: 'application/json',
+		type: 'GET',
+		success: function (datareview) {
+		  $('SECTION.places').append(
+                    '<article> <div class="title">' +
+                      '<h2>' + elem.name + '</h2>' +
+                      '<div class="price_by_night">' + elem.price_by_night + '</div> </div>' +
+                      '<div class="information"> <div class="max_guest">' +
+                      '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
+                      '<br />' + elem.max_guest + ' Guests' + '</div>' +
+                      '<div class="number_rooms">' +
+                      '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
+                      '<br />' + elem.number_rooms + ' Bedrooms' + '</div>' +
+                      '<div class="number_bathrooms">' +
+                      '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
+                      '<br />' + elem.number_bathrooms + ' Bathroom' + '</div>' + '</div>' +
+                      '<div class="user">' + '<strong>' + 'Owner: ' + dataname.first_name +
+                      ' ' + dataname.last_name + '</strong>' + '</div>' +
+                      '</div>' + '<div class="description">' + elem.description + '</div>' + 
+		      '<div class="reviews">' + '<h2>' + datareview.length + '&nbsp;Reviews' + '<span>' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;show' + '</span>' + '</h2>' + '<ul>' +
+                      '</ul>' + '</div>' + '</article>'
+		  );
+		  for (const review of Object.values(datareview)) {
+		    $('.reviews ul').hide();
+		    $('.reviews ul').append(
+		      '<li>'+  '<h3>' + 'From ' + dataname.first_name + ' the ' + review.updated_at + 
+			'</h3>' + '<p>' + review.text + '</p></li>'
+		    );
+		  }
+		}
+	      });
+	    }
           });
         }
       }
@@ -105,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
       datas = JSON.stringify(datas);
       $('SECTION.places').empty();
       $.ajax({
-        url: 'http://localhost:5001/api/v1/places_search/',
+        url: 'http://0.0.0.0:5001/api/v1/places_search/',
         contentType: 'application/json',
         type: 'POST',
         data: datas,
@@ -121,31 +136,48 @@ document.addEventListener('DOMContentLoaded', function () {
           });
           for (const elem of Object.values(data)) {
             $.ajax({
-              url: 'http://localhost:5001/api/v1/users/' + elem.user_id,
+              url: 'http://0.0.0.0:5001/api/v1/users/' + elem.user_id,
               contentType: 'application/json',
               type: 'GET',
               success: function (dataname) {
-                $('SECTION.places').append(
-                  '<article> <div class="title">' +
-                    '<h2>' + elem.name + '</h2>' +
-                    '<div class="price_by_night">' + elem.price_by_night + '</div> </div>' +
-                    '<div class="information"> <div class="max_guest">' +
-                    '<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
-                    '<br />' + elem.max_guest + ' Guests' + '</div>' +
-                    '<div class="number_rooms">' +
-                    '<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
-                    '<br />' + elem.number_rooms + ' Bedrooms' + '</div>' +
-                    '<div class="number_bathrooms">' +
-                    '<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
-                    '<br />' + elem.number_bathrooms + ' Bathroom' + '</div>' + '</div>' +
-                    '<div class="user">' + '<strong>' + 'Owner: ' + dataname.first_name +
-                    ' ' + dataname.last_name + '</strong>' + '</div>' +
-                    '</div>' + '<div class="description">' + elem.description + '</div>' + '</article>'
-                );
-              }
-            });
+		$.ajax({
+                  url: `http://0.0.0.0:5001/api/v1/places/${elem.id}/reviews`,
+                  contentType: 'application/json',
+                  type: 'GET',
+                  success: function (datareview) {
+                    $('SECTION.places').append(
+                      '<article> <div class="title">' +
+			'<h2>' + elem.name + '</h2>' +
+			'<div class="price_by_night">' + elem.price_by_night + '</div> </div>' +
+			'<div class="information"> <div class="max_guest">' +
+			'<i class="fa fa-users fa-3x" aria-hidden="true"></i>' +
+			'<br />' + elem.max_guest + ' Guests' + '</div>' +
+			'<div class="number_rooms">' +
+			'<i class="fa fa-bed fa-3x" aria-hidden="true"></i>' +
+			'<br />' + elem.number_rooms + ' Bedrooms' + '</div>' +
+			'<div class="number_bathrooms">' +
+			'<i class="fa fa-bath fa-3x" aria-hidden="true"></i>' +
+			'<br />' + elem.number_bathrooms + ' Bathroom' + '</div>' + '</div>' +
+			'<div class="user">' + '<strong>' + 'Owner: ' + dataname.first_name +
+			' ' + dataname.last_name + '</strong>' + '</div>' +
+			'</div>' + '<div class="description">' + elem.description + '</div>' +
+			'<div class="reviews">' + '<h2>' + datareview.length + '&nbsp;Reviews' + '<span>' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;show' + '</span>' + '</h2>' + '<ul>' +
+			'</ul>' + '</div>' + '</article>'
+                    );
+		    for (const review of Object.values(datareview)) {
+                      $('.reviews ul').hide();
+                      $('.reviews ul').append(
+			'<li>'+  '<h3>' + 'From ' + dataname.first_name + ' the ' + review.
+			  updated_at +
+                          '</h3>' + '<p>' + review.text + '</p></li>'
+                      );
+                    }
+		  }
+		});
+	      }
+	    });
           }
-        }
+	}
       });
     });
   });

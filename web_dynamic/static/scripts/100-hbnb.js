@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     let datas = JSON.stringify(dictAmeny);
-    $.get('http://localhost:5001/api/v1/status/', function (data) {
+    $.get('http://0.0.0.0:5001/api/v1/status/', function (data) {
       if (data.status === 'OK') {
         $('DIV#api_status').addClass('available');
       } else {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
     $.ajax({
-      url: 'http://localhost:5001/api/v1/places_search/',
+      url: 'http://0.0.0.0:5001/api/v1/places_search/',
       contentType: 'application/json',
       type: 'POST',
       data: datas,
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(data[0]);
         for (const elem of Object.values(data)) {
           $.ajax({
-            url: 'http://localhost:5001/api/v1/users/' + elem.user_id,
+            url: 'http://0.0.0.0:5001/api/v1/users/' + elem.user_id,
             contentType: 'application/json',
             type: 'GET',
             success: function (dataname) {
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
       datas = JSON.stringify(datas);
       $('SECTION.places').empty();
       $.ajax({
-        url: 'http://localhost:5001/api/v1/places_search/',
+        url: 'http://0.0.0.0:5001/api/v1/places_search/',
         contentType: 'application/json',
         type: 'POST',
         data: datas,
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
           });
           for (const elem of Object.values(data)) {
             $.ajax({
-              url: 'http://localhost:5001/api/v1/users/' + elem.user_id,
+              url: 'http://0.0.0.0:5001/api/v1/users/' + elem.user_id,
               contentType: 'application/json',
               type: 'GET',
               success: function (dataname) {
